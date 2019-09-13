@@ -315,12 +315,12 @@ int main(int argc, char** argv)
                <<"% of the good entries"<<std::endl;
    }
 
-   TTree* epicstree = dynamic_cast<TTree*>(file->Get("EpicsTree"));
+   TTree* scalertree = dynamic_cast<TTree*>(file->Get("ScalerTree"));
 
-   if(epicstree == nullptr) {
-      printf("Failed to find epics tree in file '%s'!\n", argv[1]);
+   if(scalertree == nullptr) {
+      printf("Failed to find scaler tree in file '%s'!\n", argv[1]);
    } else {
-      std::cout<<epicstree->GetEntries()<<" epics entries"<<std::endl;
+      std::cout<<scalertree->GetEntries()<<" scaler entries"<<std::endl;
    }
 
    TPPG* ppg = dynamic_cast<TPPG*>(file->Get("TPPG"));

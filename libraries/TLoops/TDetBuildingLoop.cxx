@@ -50,6 +50,7 @@ bool TDetBuildingLoop::Iteration()
 
    std::shared_ptr<TUnpackedEvent> outputEvent = std::make_shared<TUnpackedEvent>();
    for(const auto& frag : frags) {
+      //std::cout<<"Address: 0x"<<std::hex<<frag->GetAddress()<<std::dec<<std::endl;
       // passes ownership of all TFragments, no need to delete here
       outputEvent->AddRawData(frag);
    }

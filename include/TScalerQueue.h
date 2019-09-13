@@ -139,5 +139,65 @@ public:
    void Print(Option_t* opt = "") const override;
    void Clear(Option_t* opt = "") override;
 };
+
+class TRFScalerQueue : public TObject {
+public:
+   static TRFScalerQueue* Get(); // Returns the Queue
+   ~TRFScalerQueue() override;
+
+   int ScalersInQueue() { return fScalersInQueue; }
+
+private:
+   TRFScalerQueue();
+   static TRFScalerQueue* fRFScalerQueueClassPointer; // Pointer to the scaler Q singleton
+
+   std::queue<TScalerData*> fRFScalerQueue; // The scaler Queue itself
+   int                      fScalersInQueue;  // The current number of scalers in the Q
+
+   void StatusUpdate();
+   bool fStatusUpdateOn{false}; // flag that determines whether the Q status should be read out
+
+   bool fStop;
+
+   int fScalersIn{0};
+   int fScalersOut{0};
+
+   TStopwatch* fStopwatch; // The stop watch used for timing in the status
+   void        ResetRateCounter();
+
+   unsigned int fTotalScalersIn{0};
+   unsigned int fTotalScalersOut{0};
+
+   static std::map<int, int> fScalerIdMap;
+
+#if !defined(__CINT__) && !defined(__CLING__)
+#ifndef NO_MUTEX
+public:
+   static std::mutex All;
+   static std::mutex Sorted;
+#endif
+#endif
+
+public:
+   void Add(TScalerData*);
+
+   void         Pop() override;
+   TScalerData* PopScaler();
+
+   int Size() const;
+
+   void StartStatusUpdate();
+   void StopStatusUpdate();
+   void CheckStatus() const;
+
+   unsigned int GetTotalScalersIn() { return fTotalScalersIn; }
+   unsigned int GetTotalScalersOut() { return fTotalScalersOut; }
+
+   bool Running() { return !fStop; }
+   void Stop() { fStop = true; }
+
+   void Print(Option_t* opt = "") const override;
+   void Clear(Option_t* opt = "") override;
+};
 /*! @} */
 #endif

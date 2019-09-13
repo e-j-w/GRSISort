@@ -1,5 +1,5 @@
-#ifndef TEPICSFRAG_H
-#define TEPICSFRAG_H
+#ifndef TSCALERFRAG_H
+#define TSCALERFRAG_H
 
 /** \addtogroup Sorting
  *  @{
@@ -21,17 +21,17 @@
 
 /////////////////////////////////////////////////////////////////
 ///
-/// \class TEpicsFrag
+/// \class TScalerFrag
 ///
 /// This Class should contain all the information found in
 /// Epics (scaler) events.
 ///
 /////////////////////////////////////////////////////////////////
 
-class TEpicsFrag : public TObject {
+class TScalerFrag : public TObject {
 public:
-   TEpicsFrag();
-   ~TEpicsFrag() override;
+   TScalerFrag();
+   ~TScalerFrag() override;
 
    time_t fDaqTimeStamp; //->  Timestamp of the daq event
    Int_t  fDaqId;        //->  daq ID
@@ -61,16 +61,16 @@ public:
    static void BuildScalerMap();
    static void PrintScalerMap();
 
-   static TEpicsFrag* GetScalerAtTime(Long64_t time);
+   static TScalerFrag* GetScalerAtTime(Long64_t time);
 
 private:
    static std::vector<std::string> fNameList; // This stuff should potentially move to a run info of some sort
-   static std::map<Long64_t, TEpicsFrag> fScalerMap;
+   static std::map<Long64_t, TScalerFrag> fScalerMap;
    static Long64_t fSmallestTime;
 
    /// \cond CLASSIMP
-   ClassDefOverride(TEpicsFrag, 2); // Scaler Fragments
+   ClassDefOverride(TScalerFrag, 2); // Scaler Fragments
    /// \endcond
 };
 /*! @} */
-#endif // TEPICSFRAG_H
+#endif // TSCALERFRAG_H

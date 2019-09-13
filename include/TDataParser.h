@@ -34,7 +34,7 @@
 #include "TScaler.h"
 #include "TFragmentMap.h"
 #include "ThreadsafeQueue.h"
-#include "TEpicsFrag.h"
+#include "TScalerFrag.h"
 #include "TGRSIOptions.h"
 
 class TRawEvent;
@@ -60,7 +60,7 @@ public:
 
 	virtual std::shared_ptr<ThreadsafeQueue<std::shared_ptr<const TBadFragment>>>& BadOutputQueue() { return fBadOutputQueue; }
 
-	virtual std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TEpicsFrag>>>& ScalerOutputQueue() { return fScalerOutputQueue; }
+	virtual std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TScalerFrag>>>& ScalerOutputQueue() { return fScalerOutputQueue; }
 
 	virtual void SetStatusVariables(std::atomic_size_t* itemsPopped, std::atomic_long* inputSize)
 	{
@@ -87,7 +87,7 @@ protected:
 #ifndef __CINT__
 	std::vector<std::shared_ptr<ThreadsafeQueue<std::shared_ptr<const TFragment>>>> fGoodOutputQueues;
 	std::shared_ptr<ThreadsafeQueue<std::shared_ptr<const TBadFragment>>>           fBadOutputQueue;
-	std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TEpicsFrag>>>                   fScalerOutputQueue;
+	std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TScalerFrag>>>                   fScalerOutputQueue;
 #endif
 
 	bool      fNoWaveforms; ///< The flag to turn wave_forms on or off

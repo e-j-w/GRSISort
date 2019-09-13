@@ -21,6 +21,11 @@ void TUnpackedEvent::Build()
          continue;
       }
 
+      //int chno = channel->GetNumber();
+      //if(chno == 720)
+      //if((chno >=718)&&(chno<=722))
+      //   printf("Channel number: %i\n",chno);
+
       TClass* detClass = channel->GetClassType();
       if(detClass == nullptr) {
 			TSortingDiagnostics::Get()->AddDetectorClass(channel);

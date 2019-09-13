@@ -533,7 +533,7 @@ void TGRSIint::SetupPipeline()
 
 	// Different queues that can show up
 	std::vector<std::shared_ptr<ThreadsafeQueue<std::shared_ptr<const TFragment>>>>    fragmentQueues;
-	std::vector<std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TEpicsFrag>>>>         scalerQueues;
+	std::vector<std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TScalerFrag>>>>         scalerQueues;
 	std::vector<std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TUnpackedEvent>>>>     analysisQueues;
 
 	// The different loops that can run

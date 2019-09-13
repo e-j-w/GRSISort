@@ -170,7 +170,7 @@ void TAnalysisWriteLoopClient::WriteEvent(std::shared_ptr<TUnpackedEvent>& event
 				// loop over global map of detectors and add those we don't have in our list
 				for(auto const& det : fGlobalDetMap) {
 					// AddBranch checks if detector exists
-					//std::cout<<std::endl<<Name()<<" Adding branch "<<det.first->GetName()<<std::endl;
+					std::cout<<std::endl<<Name()<<" Adding branch "<<det.first->GetName()<<std::endl;
 					AddBranch(det.first);
 				}
 			}

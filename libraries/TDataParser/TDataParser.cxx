@@ -5,7 +5,7 @@
 
 #include "TScalerQueue.h"
 
-#include "TEpicsFrag.h"
+#include "TScalerFrag.h"
 #include "TParsingDiagnostics.h"
 
 #include "Rtypes.h"
@@ -17,7 +17,7 @@ TGRSIOptions* TDataParser::fOptions = nullptr;
 
 TDataParser::TDataParser()
    : fBadOutputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<const TBadFragment>>>("bad_frag_queue")),
-     fScalerOutputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<TEpicsFrag>>>("scaler_queue")),
+     fScalerOutputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<TScalerFrag>>>("scaler_queue")),
      fNoWaveforms(false), fRecordDiag(true), fMaxTriggerId(1024 * 1024 * 16), fLastDaqId(0), fLastTriggerId(0),
      fLastNetworkPacket(0), fFragmentHasWaveform(false), fFragmentMap(fGoodOutputQueues, fBadOutputQueue),
      fItemsPopped(nullptr), fInputSize(nullptr)
@@ -43,9 +43,9 @@ void TDataParser::ClearQueue()
    while(fBadOutputQueue->Size() != 0u) {
       fBadOutputQueue->Pop(badFrag);
    }
-   std::shared_ptr<TEpicsFrag> epicsFrag;
+   std::shared_ptr<TScalerFrag> scalerFrag;
    while(fScalerOutputQueue->Size() != 0u) {
-      fScalerOutputQueue->Pop(epicsFrag);
+      fScalerOutputQueue->Pop(scalerFrag);
    }
 }
 

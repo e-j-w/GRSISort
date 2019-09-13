@@ -1,4 +1,4 @@
-#include "TEpicsFrag.h"
+#include "TScalerFrag.h"
 
 #include <iostream>
 #include <iomanip>
@@ -12,7 +12,7 @@
 
 ////////////////////////////////////////////////////////////////
 //                                                            //
-// TEpicsFrag   TSCLRFrag                                     //
+// TScalerFrag   TSCLRFrag                                     //
 //                                                            //
 // This Class should contain all the information found in     //
 // NOT typeid 1 midas events. aka Epics (scaler) Events.      //
@@ -21,25 +21,25 @@
 ////////////////////////////////////////////////////////////////
 
 /// \cond CLASSIMP
-ClassImp(TEpicsFrag)
+ClassImp(TScalerFrag)
    /// \endcond
 
-   std::vector<std::string> TEpicsFrag::fNameList;
-std::map<Long64_t, TEpicsFrag> TEpicsFrag::fScalerMap;
-Long64_t TEpicsFrag::fSmallestTime = std::numeric_limits<Long64_t>::max();
+   std::vector<std::string> TScalerFrag::fNameList;
+std::map<Long64_t, TScalerFrag> TScalerFrag::fScalerMap;
+Long64_t TScalerFrag::fSmallestTime = std::numeric_limits<Long64_t>::max();
 
-TEpicsFrag::TEpicsFrag()
+TScalerFrag::TScalerFrag()
 {
    // Default Constructor.
    fDaqTimeStamp = 0;
    fDaqId        = -1;
 }
 
-TEpicsFrag::~TEpicsFrag() = default;
+TScalerFrag::~TScalerFrag() = default;
 
-void TEpicsFrag::Clear(Option_t*)
+void TScalerFrag::Clear(Option_t*)
 {
-   // Clears the TEpicsFrag.
+   // Clears the TScalerFrag.
    fDaqTimeStamp = 0;
    fDaqId        = -1;
 
@@ -47,9 +47,9 @@ void TEpicsFrag::Clear(Option_t*)
    fData.clear();
 }
 
-void TEpicsFrag::Print(Option_t*) const
+void TScalerFrag::Print(Option_t*) const
 {
-   // Prints the TEpicsFrag. This includes Midas information as well the data
+   // Prints the TScalerFrag. This includes Midas information as well the data
    // kep inside of the scaler.
    size_t largest = fData.size();
    printf("------ EPICS %i Varibles Found ------\n", static_cast<int>(largest));
@@ -69,12 +69,12 @@ void TEpicsFrag::Print(Option_t*) const
    }
 }
 
-void TEpicsFrag::AddEpicsVariable(const char* name)
+void TScalerFrag::AddEpicsVariable(const char* name)
 {
    fNameList.emplace_back(name);
 }
 
-std::string TEpicsFrag::GetEpicsVariableName(const int& i)
+std::string TScalerFrag::GetEpicsVariableName(const int& i)
 {
    try {
       return fNameList.at(i);
@@ -84,7 +84,7 @@ std::string TEpicsFrag::GetEpicsVariableName(const int& i)
    }
 }
 
-void TEpicsFrag::PrintVariableNames()
+void TScalerFrag::PrintVariableNames()
 {
    int idx = 0;
    for(const auto& i : fNameList) {
@@ -92,7 +92,7 @@ void TEpicsFrag::PrintVariableNames()
    }
 }
 
-void TEpicsFrag::SetEpicsNameList(const std::vector<std::string>& name_vec)
+void TScalerFrag::SetEpicsNameList(const std::vector<std::string>& name_vec)
 {
    fNameList.clear();
    for(const auto& i : name_vec) {
@@ -100,15 +100,15 @@ void TEpicsFrag::SetEpicsNameList(const std::vector<std::string>& name_vec)
    }
 }
 
-void TEpicsFrag::BuildScalerMap(TTree* tree)
+void TScalerFrag::BuildScalerMap(TTree* tree)
 {
    if(tree == nullptr) {
       std::cout<<DRED<<"Could not build map from tree"<<RESET_COLOR<<std::endl;
    }
    // Loop through the tree and insert the scalers into the map
    fScalerMap.clear();
-   TEpicsFrag* my_frag = nullptr;
-   if(tree->SetBranchAddress("TEpicsFrag", &my_frag) == 0) {
+   TScalerFrag* my_frag = nullptr;
+   if(tree->SetBranchAddress("TScalerFrag", &my_frag) == 0) {
       for(int i = 0; i < tree->GetEntries(); ++i) {
          tree->GetEntry(i);
          if((static_cast<Long64_t>(my_frag->fDaqTimeStamp) - static_cast<Long64_t>(TRunInfo::Get()->RunStart())) < fSmallestTime) {
@@ -122,9 +122,9 @@ void TEpicsFrag::BuildScalerMap(TTree* tree)
    }
 }
 
-void TEpicsFrag::BuildScalerMap()
+void TScalerFrag::BuildScalerMap()
 {
-   TTree* scaler_tree = static_cast<TTree*>(gDirectory->Get("EpicsTree"));
+   TTree* scaler_tree = static_cast<TTree*>(gDirectory->Get("ScalerTree"));
    if(scaler_tree == nullptr) {
       return;
    }
@@ -132,7 +132,7 @@ void TEpicsFrag::BuildScalerMap()
    BuildScalerMap(scaler_tree);
 }
 
-TEpicsFrag* TEpicsFrag::GetScalerAtTime(Long64_t time)
+TScalerFrag* TScalerFrag::GetScalerAtTime(Long64_t time)
 {
    if(fScalerMap.empty()) {
       BuildScalerMap();
@@ -147,7 +147,7 @@ TEpicsFrag* TEpicsFrag::GetScalerAtTime(Long64_t time)
    return &((--(fScalerMap.upper_bound(time)))->second);
 }
 
-void TEpicsFrag::PrintScalerMap()
+void TScalerFrag::PrintScalerMap()
 {
    if(fScalerMap.empty()) {
       BuildScalerMap();

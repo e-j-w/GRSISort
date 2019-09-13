@@ -1,4 +1,4 @@
-// TFragment.h TBadFragment.h TChannel.h TRunInfo.h TGRSISortInfo.h TPPG.h TEpicsFrag.h TScaler.h TScalerQueue.h TParsingDiagnostics.h TGRSIUtilities.h TMnemonic.h TSortingDiagnostics.h TTransientBits.h TPriorityValue.h TSingleton.h TDetectorInformation.h TParserLibrary.h
+// TFragment.h TBadFragment.h TChannel.h TRunInfo.h TGRSISortInfo.h TPPG.h TScalerFrag.h TScaler.h TScalerQueue.h TParsingDiagnostics.h TGRSIUtilities.h TMnemonic.h TSortingDiagnostics.h TTransientBits.h TPriorityValue.h TSingleton.h TDetectorInformation.h TParserLibrary.h
 
 
 #ifdef __CINT__
@@ -18,7 +18,7 @@
 #pragma link C++ class TFragment+;
 #pragma link C++ class TBadFragment+;
 
-#pragma link C++ class TEpicsFrag+;
+#pragma link C++ class TScalerFrag+;
 #pragma link C++ class TChannel-;
 #pragma link C++ class TGRSISortInfo+;
 #pragma link C++ class TGRSISortList+;

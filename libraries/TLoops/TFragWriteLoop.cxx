@@ -39,7 +39,7 @@ TFragWriteLoop::TFragWriteLoop(std::string name, std::string fOutputFilename)
    : StoppableThread(name), fOutputFile(nullptr), fEventTree(nullptr), fBadEventTree(nullptr), fScalerTree(nullptr),
      fInputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<const TFragment>>>()),
      fBadInputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<const TBadFragment>>>()),
-     fScalerInputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<TEpicsFrag>>>())
+     fScalerInputQueue(std::make_shared<ThreadsafeQueue<std::shared_ptr<TScalerFrag>>>())
 {
    if(fOutputFilename != "/dev/null") {
       TThread::Lock();
@@ -57,9 +57,9 @@ TFragWriteLoop::TFragWriteLoop(std::string name, std::string fOutputFilename)
       fBadEventAddress = new TBadFragment;
       fBadEventTree->Branch("TBadFragment", &fBadEventAddress);
 
-      fScalerTree    = new TTree("EpicsTree", "EpicsTree");
+      fScalerTree    = new TTree("ScalerTree", "ScalerTree");
       fScalerAddress = nullptr;
-      fScalerTree->Branch("TEpicsFrag", &fScalerAddress);
+      fScalerTree->Branch("TScalerFrag", &fScalerAddress);
 
       TThread::UnLock();
    }
@@ -101,7 +101,7 @@ bool TFragWriteLoop::Iteration()
    std::shared_ptr<const TBadFragment> badEvent;
    fBadInputQueue->Pop(badEvent, 0);
 
-   std::shared_ptr<TEpicsFrag> scaler;
+   std::shared_ptr<TScalerFrag> scaler;
    fScalerInputQueue->Pop(scaler, 0);
 
    bool hasAnything    = event || badEvent || scaler;
@@ -190,7 +190,7 @@ void TFragWriteLoop::WriteBadEvent(const std::shared_ptr<const TBadFragment>& ev
    }
 }
 
-void TFragWriteLoop::WriteScaler(const std::shared_ptr<TEpicsFrag>& scaler)
+void TFragWriteLoop::WriteScaler(const std::shared_ptr<TScalerFrag>& scaler)
 {
    if(fScalerTree != nullptr) {
       fScalerAddress = scaler.get();

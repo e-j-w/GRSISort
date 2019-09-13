@@ -21,7 +21,7 @@
 #include "StoppableThread.h"
 #include "TRawEvent.h"
 #include "TFragment.h"
-#include "TEpicsFrag.h"
+#include "TScalerFrag.h"
 #include "TDataParser.h"
 
 class TUnpackingLoop : public StoppableThread {
@@ -44,7 +44,7 @@ public:
    {
       return fParser->BadOutputQueue();
    }
-   std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TEpicsFrag>>>& ScalerOutputQueue()
+   std::shared_ptr<ThreadsafeQueue<std::shared_ptr<TScalerFrag>>>& ScalerOutputQueue()
    {
       return fParser->ScalerOutputQueue();
    }
