@@ -22,7 +22,7 @@ ROOT_PYTHON_VERSION=$(shell root-config --python-version)
 MATHMORE_INSTALLED:=$(shell root-config --has-mathmore)
 XML_INSTALLED:=$(shell root-config --has-xml)
 
-CFLAGS += -DMAJOR_ROOT_VERSION=${MAJOR_ROOT_VERSION}
+CFLAGS += -DMAJOR_ROOT_VERSION=${MAJOR_ROOT_VERSION} -DMINOR_ROOT_VERSION=${MINOR_ROOT_VERSION}
 ifeq ($(ROOT_PYTHON_VERSION),2.7)
   CFLAGS += -DHAS_CORRECT_PYTHON_VERSION
 endif
@@ -207,7 +207,7 @@ find_linkdef = $(shell $(FIND) $(1) -name "*LinkDef.h")
 define library_template
 .build/$(1)/$(notdir $(1))Dict.cxx: $(1)/LinkDef.h $$(call dict_header_files,$(1)/LinkDef.h) 
 	@mkdir -p $$(dir $$@)
-	$$(call run_and_test,$$(ROOTCINT) -f $$@ -c $$(INCLUDES) $$(RCFLAGS) -s $(notdir $(1)) -multiDict -rml .build/$(1)/$(notdir $(1)) -rmf .build/$(1)/$(notdir $(1)).rootmap -p $$(notdir $$(filter-out $$<,$$^)) $$<,$$@,$$(COM_COLOR),$$(BLD_STRING) ,$$(OBJ_COLOR))
+	$$(call run_and_test,$$(ROOTCINT) -f $$@ -c $$(INCLUDES) $$(RCFLAGS) -s $(notdir $(1)) -multiDict -rml lib$(notdir $(1)).so -rmf .build/$(1)/$(notdir $(1)).rootmap -p $$(notdir $$(filter-out $$<,$$^)) $$<,$$@,$$(COM_COLOR),$$(BLD_STRING) ,$$(OBJ_COLOR))
 
 .build/$(1)/LibDictionary.o: .build/$(1)/$(notdir $(1))Dict.cxx
 	$$(call run_and_test,$$(CPP) -fPIC -c $$< -o $$@ $$(CFLAGS),$$@,$$(COM_COLOR),$$(COM_STRING),$$(OBJ_COLOR) )
