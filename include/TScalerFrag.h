@@ -35,6 +35,7 @@ public:
 
    time_t fDaqTimeStamp; //->  Timestamp of the daq event
    Int_t  fDaqId;        //->  daq ID
+   
 
    std::vector<float>       fData; ///<The data in the scaler
    std::vector<std::string> fName; ///<The name of the scaler
@@ -48,6 +49,9 @@ public:
          return fData[i];
       }
    }
+
+   void SetTimeStamp(ULong64_t ts) { fTimeStamp = ts; }
+   ULong64_t GetTimeStamp() { return fTimeStamp; }
 
    void Clear(Option_t* opt = "") override;       //!<!
    void Print(Option_t* opt = "") const override; //!<!
@@ -67,6 +71,8 @@ private:
    static std::vector<std::string> fNameList; // This stuff should potentially move to a run info of some sort
    static std::map<Long64_t, TScalerFrag> fScalerMap;
    static Long64_t fSmallestTime;
+
+   ULong64_t fTimeStamp; // fragment timestamp
 
    /// \cond CLASSIMP
    ClassDefOverride(TScalerFrag, 2); // Scaler Fragments
